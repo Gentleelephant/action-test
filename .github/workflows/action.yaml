@@ -74,7 +74,7 @@ jobs:
           echo env-passwd=${{ steps.get-issues.outputs.passwd }} >> $GITHUB_ENV
           echo env-reply=${{ steps.get-issues.outputs.reply }} >> $GITHUB_ENV
       - name: Create comment
-        if: github.event.issue.body != '' && steps.get-issues.outputs.mail != '' && success()
+        if: github.event.issue.body != '' && env.env-mail != '' && success()
         uses: actions/github-script@v6
         with:
           script: |
@@ -89,7 +89,7 @@ jobs:
             `
             })
       - name: Close issue
-        if: github.event.issue.body != '' && steps.get-issues.outputs.mail != '' && success()
+        if: github.event.issue.body != '' && env.env-mail != '' && success()
         uses: actions-cool/issues-helper@v3
         with:
           actions: 'close-issue'
