@@ -38,7 +38,7 @@ jobs:
       - name: Get Issues Info
         if: github.event_name == 'issues'
         id: get-issues
-        uses: actions/github-script@v6
+        uses: actions/github-script@v5.11
         with:
           script: |
             var issuenumber = ${{ toJSON(github.event.issue.number) }};
