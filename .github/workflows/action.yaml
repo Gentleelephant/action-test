@@ -86,7 +86,8 @@ jobs:
           echo env-mail=${{ steps.get-issues.outputs.mail }} >> $GITHUB_ENV
           echo env-passwd=${{ steps.get-issues.outputs.passwd }} >> $GITHUB_ENV
           echo env-reply=${{ steps.get-issues.outputs.reply }} >> $GITHUB_ENV
-      - uses: actions/github-script@v6
+      - name: Create comment
+        uses: actions/github-script@v6
         with:
           script: |
             github.rest.issues.createComment({
@@ -96,7 +97,7 @@ jobs:
               body: `
                 申请邮箱：${{ env.env-mail }}
                 临时密码：${{ env.env-passwd }}
-                请访问http://wwwbaidu.com尽快修改密码
+                请访问 http://wwwbaidu.com 尽快修改密码
             `
             })
 #      - name: Issue Reply
@@ -228,3 +229,17 @@ jobs:
 #          token: ${{ secrets.GITHUB_TOKEN }}
 #          issue-number: ${{ env.issuenumber }}
 
+---
+on:
+  schedule:
+    - cron: '5 * * * *'
+jobs:
+  close-issue:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Close issue
+      uses: actions-cool/issues-helper@v3
+      with:
+        actions: 'close-issue'
+        token: ${{ secrets.GITHUB_TOKEN }}
+        close-reason: 'completed'
