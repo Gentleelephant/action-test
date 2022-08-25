@@ -83,12 +83,12 @@ jobs:
           echo mail: "${{ setp.get-issues.outputs.mail }}"
           echo passwd: "${{ setp.get-issues.outputs.passwd }}"
           echo issuebody:   "${{ steps.get-issues.outputs.issuebody }}"
-          echo env-issuenumber="${{ steps.get-issues.outputs.issuenumber }}" >> $GITHUB_ENV
-          echo env-issueauth="${{ steps.get-issues.outputs.issueauth }}" >> $GITHUB_ENV
-          echo env-issuetitle="${{ steps.get-issues.outputs.issuetitle }}" >> $GITHUB_ENV
-          echo env-issuebody="${{ steps.get-issues.outputs.issuebody }}" >> $GITHUB_ENV
-          echo env-mail="${{ steps.get-issues.outputs.mail }}" >> $GITHUB_ENV
-          echo env-passwd="${{ steps.get-issues.outputs.passwd }}" >> $GITHUB_ENV
+          echo "env-issuenumber="${{ steps.get-issues.outputs.issuenumber }}"" >> $GITHUB_ENV
+          echo "env-issueauth="${{ steps.get-issues.outputs.issueauth }}"" >> $GITHUB_ENV
+          echo "env-issuetitle="${{ steps.get-issues.outputs.issuetitle }}"" >> $GITHUB_ENV
+          echo "env-issuebody="${{ steps.get-issues.outputs.issuebody }}"" >> $GITHUB_ENV
+          echo "env-mail="${{ steps.get-issues.outputs.mail }}"" >> $GITHUB_ENV
+          echo "env-passwd="${{ steps.get-issues.outputs.passwd }}"" >> $GITHUB_ENV
 #          if [ -f 'customshell.sh' ]; then
 #            echo "customshell.sh"
 #            cat customshell.sh
