@@ -89,6 +89,17 @@ jobs:
           echo env-issuebody="${{ steps.get-issues.outputs.issuebody }}" >> $GITHUB_ENV
           echo env-mail="${{ steps.get-issues.outputs.mail }}" >> $GITHUB_ENV
           echo env-passwd="${{ steps.get-issues.outputs.passwd }}" >> $GITHUB_ENV
+      - name: Create comment
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'create-comment'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            你的邮箱：${{ env.env-mail }}
+
+            你的密码：${{ env.env-passwd }}
+          emoji: '+1' or '+1,heart'
 #          if [ -f 'customshell.sh' ]; then
 #            echo "customshell.sh"
 #            cat customshell.sh
