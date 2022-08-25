@@ -1,4 +1,4 @@
-name: Custom Redpill
+name: Test
 on:
   issues:
     types: [opened]
