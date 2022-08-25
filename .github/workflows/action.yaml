@@ -9,7 +9,7 @@
 name: Custom Redpill
 on:
   issues:
-    types: [opened, reopened, labeled]
+    types: [labeled]
 
 # 回复issue
 jobs:
