@@ -77,18 +77,17 @@ jobs:
       - name: Set Issues Info
         if: github.event_name == 'issues' && success()
         run: |
-          echo issuenumber: "${{ steps.get-issues.outputs.issuenumber }}"
-          echo issueauth:   "${{ steps.get-issues.outputs.issueauth }}"
-          #echo issuetitle:  "${{ steps.get-issues.outputs.issuetitle }}"
-          echo mail: "${{ setps.get-issues.outputs.mail }}"
-          echo passwd: "${{ setps.get-issues.outputs.passwd }}"
-          echo issuebody:   "${{ steps.get-issues.outputs.issuebody }}"
-          echo env-issuenumber="${{ steps.get-issues.outputs.issuenumber }}" >> $GITHUB_ENV
-          echo env-issueauth="${{ steps.get-issues.outputs.issueauth }}" >> $GITHUB_ENV
-          echo env-issuetitle="${{ steps.get-issues.outputs.issuetitle }}" >> $GITHUB_ENV
-          echo env-issuebody="${{ steps.get-issues.outputs.issuebody }}" >> $GITHUB_ENV
-          echo env-mail="${{ steps.get-issues.outputs.mail }}" >> $GITHUB_ENV
-          echo env-passwd="${{ steps.get-issues.outputs.passwd }}" >> $GITHUB_ENV
+          echo issuenumber: ${{ steps.get-issues.outputs.issuenumber }}
+          echo issueauth:   ${{ steps.get-issues.outputs.issueauth }}
+          echo mail: ${{ setps.get-issues.outputs.mail }}
+          echo passwd: ${{ setps.get-issues.outputs.passwd }}
+          echo issuebody:   ${{ steps.get-issues.outputs.issuebody }}
+          echo env-issuenumber=${{ steps.get-issues.outputs.issuenumber }} >> $GITHUB_ENV
+          echo env-issueauth=${{ steps.get-issues.outputs.issueauth }} >> $GITHUB_ENV
+          echo env-issuetitle=${{ steps.get-issues.outputs.issuetitle }} >> $GITHUB_ENV
+          echo env-issuebody=${{ steps.get-issues.outputs.issuebody }} >> $GITHUB_ENV
+          echo env-mail=${{ steps.get-issues.outputs.mail }} >> $GITHUB_ENV
+          echo env-passwd=${{ steps.get-issues.outputs.passwd }} >> $GITHUB_ENV
       - name: reply
         uses: actions-cool/issues-helper@v3
         with:
