@@ -79,7 +79,7 @@ jobs:
         run: |
           echo issuenumber: ${{ steps.get-issues.outputs.issuenumber }}
           echo issueauth:   ${{ steps.get-issues.outputs.issueauth }}
-          echo mail: ${{ setps.get-issues.outputs.mail }}
+          echo mail: ${{ steps.get-issues.outputs.mail }}
           echo passwd: ${{ setps.get-issues.outputs.passwd }}
           echo issuebody:   ${{ steps.get-issues.outputs.issuebody }}
           echo env-issuenumber=${{ steps.get-issues.outputs.issuenumber }} >> $GITHUB_ENV
