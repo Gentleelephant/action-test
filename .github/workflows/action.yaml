@@ -15,26 +15,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.1.2
-
-      - name: Set up Python 3
+      - name: Set up Python3
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-
       - name: Checkout
         uses: actions/checkout@main
-
       - name: Init Env
         run : |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           sudo timedatectl set-timezone "Asia/Shanghai"
-
           python -m pip install --upgrade pip setuptools
-
       - name: Get Issues Info
         if: github.event_name == 'issues'
         id: get-issues
@@ -49,33 +41,6 @@ jobs:
             core.setOutput("issueauth", JSON.stringify(issueauth));
             core.setOutput("issuetitle", JSON.stringify(issuetitle));
             core.setOutput("issuebody", JSON.stringify(issuebody));
-#            var regex = /\`\`\`([\s\S]*?)\`\`\`/g;
-#            let options = issuebody.match(regex);
-
-#            // '<???>': 替换一次; '/<???>/g': 替换全局; '/<???>/gi': 替换全局并忽略大小写;
-#            issuetitle = issuetitle.replace(/\u000A/g, "");  // \n 换行符
-#            issuetitle = issuetitle.replace(/\u000D/g, "");  // \r 回车
-#
-#            issuebody = issuebody.replace(/\u0008/g, "");  // \b Backspace
-#            issuebody = issuebody.replace(/\u0009/g, "");  // \t Tab
-#            issuebody = issuebody.replace(/\u000A/g, "");  // \n 换行符
-#            issuebody = issuebody.replace(/\u000B/g, "");  // \v 垂直制表符
-#            issuebody = issuebody.replace(/\u000C/g, "");  // \f 换页
-#            issuebody = issuebody.replace(/\u000D/g, "");  // \r 回车
-#            //issuebody = issuebody.replace(/\u0022/g, "");  // \" 双引号 (")
-#            //issuebody = issuebody.replace(/\u0027/g, "");  // \' 单引号 (')
-#            //issuebody = issuebody.replace(/\u005C/g, "");  // \\ 反斜杠 (\)
-#            issuebody = issuebody.replace(/\u00A0/g, "");  //    不间断空格
-#            issuebody = issuebody.replace(/\u2028/g, "");  //    行分隔符
-#            issuebody = issuebody.replace(/\u2029/g, "");  //    段落分隔符
-#            issuebody = issuebody.replace(/\uFEFF/g, "");  //    字节顺序标记
-
-#            // 容错
-#            issuebody = issuebody.replace(/：/g, ": ");
-#            issuebody = issuebody.replace(/，/g, ", ");
-#            issuebody = issuebody.replace(/“/g, "\"");
-#            issuebody = issuebody.replace(/”/g, "\"");
-
       - name: Set Issues Info
         if: github.event_name == 'issues' && success()
         run: |
@@ -92,7 +57,6 @@ jobs:
             echo "customshell.sh"
             cat customshell.sh
           fi
-
 #      - name: Create Issues comment
 #        if: steps.info.outputs.issues == 'true' && steps.info.outputs.iscustom == 'false'
 #        uses: actions-cool/issues-helper@v3
