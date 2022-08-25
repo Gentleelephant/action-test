@@ -70,7 +70,7 @@ jobs:
             core.setOutput("issuebody", JSON.stringify(issuebody));
             core.setOutput("mail", JSON.stringify(splits[1]));
             core.setOutput("reply", JSON.stringify(issuebody));
-            core.setOutput("passwd", JSON.stringify(passwd));
+#            core.setOutput("passwd", JSON.stringify(passwd));
       - name: Set Issues Info
         if: github.event_name == 'issues' && success()
         run: |
@@ -100,10 +100,10 @@ jobs:
                 请访问 http://wwwbaidu.com 尽快修改密码
             `
             })
-      - name: Close Issues
-        if: steps.info.outputs.issues == 'true' && steps.info.outputs.iscustom == 'true' && success()
+      - name: Close issue
         uses: actions-cool/issues-helper@v3
         with:
           actions: 'close-issue'
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ env.issuenumber }}
+          issue-number: &{{ env.env-issuenumber }}
+          close-reason: completed
