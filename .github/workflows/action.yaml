@@ -132,8 +132,8 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Checkout
-        uses: actions/checkout@main
+#      - name: Checkout
+#        uses: actions/checkout@main
 
 #      - name: Init Env
 #        run : |
