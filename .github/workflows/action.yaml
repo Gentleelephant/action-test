@@ -15,18 +15,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-#      - name: Set up Python3
-#        uses: actions/setup-python@v2
-#        with:
-#          python-version: 3.8
       - name: Checkout
         uses: actions/checkout@main
-#      - name: Init Env
-#        run : |
-#          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-#          git config --global user.name "github-actions[bot]"
-#          sudo timedatectl set-timezone "Asia/Shanghai"
-#          python -m pip install --upgrade pip setuptools
       - name: Get Issues Info
         if: github.event_name == 'issues'
         id: get-issues
@@ -104,6 +94,7 @@ jobs:
         uses: actions-cool/issues-helper@v3
         with:
           actions: 'close-issue'
+          if : ${{ env.env-mail != '' }}  &&  ${{ env.env-reply != '' }}  && ${{ success() }}
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ env.env-issuenumber }}
           close-reason: completed
