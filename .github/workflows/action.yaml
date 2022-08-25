@@ -94,18 +94,18 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: |
-                <div class="markdown-body">
-                  <h3>您的问题已经提交成功，请等待管理员审核！</h3>
-                  <p>问题标题：${{ steps.get-issues.outputs.issuetitle }}</p>
-                  <p>问题内容：${{ steps.get-issues.outputs.issuebody }}</p>
-                  <p>问题编号：${{ steps.get-issues.outputs.issuenumber }}</p>
-                  <p>问题提交者：${{ steps.get-issues.outputs.issueauth }}</p>
-                  <p>问题提交者邮箱：${{ steps.get-issues.outputs.mail }}</p>
-                  <p>问题提交者密码：${{ steps.get-issues.outputs.passwd }}</p>
-                  <p>问题提交者回复：${{ steps.get-issues.outputs.reply }}</p>
-                  <p>问题提交者回复：${{ env.env-reply }}</p>
-                  <p>问题提交者回复：${{ env.env-passwd }}</p>
-                </div>
+                '<div class="markdown-body">
+                <h3>您的问题已经提交成功，请等待管理员审核！</h3>
+                <p>问题标题：${{ steps.get-issues.outputs.issuetitle }}</p>
+                <p>问题内容：${{ steps.get-issues.outputs.issuebody }}</p>
+                <p>问题编号：${{ steps.get-issues.outputs.issuenumber }}</p>
+                <p>问题提交者：${{ steps.get-issues.outputs.issueauth }}</p>
+                <p>问题提交者邮箱：${{ steps.get-issues.outputs.mail }}</p>
+                <p>问题提交者密码：${{ steps.get-issues.outputs.passwd }}</p>
+                <p>问题提交者回复：${{ steps.get-issues.outputs.reply }}</p>
+                <p>问题提交者回复：${{ env.env-reply }}</p>
+                <p>问题提交者回复：${{ env.env-passwd }}</p>
+                </div>'
             })
 #      - name: Issue Reply
 #        uses: actions-cool/issues-helper@v3
