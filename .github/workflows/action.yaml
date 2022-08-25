@@ -230,6 +230,7 @@ jobs:
 #          issue-number: ${{ env.issuenumber }}
 
 ---
+name: close-issues
 on:
   schedule:
     - cron: '5 * * * *'
