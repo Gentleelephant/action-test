@@ -105,5 +105,5 @@ jobs:
         with:
           actions: 'close-issue'
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: &{{ env.env-issuenumber }}
+          issue-number: ${{ env.env-issuenumber }}
           close-reason: completed
