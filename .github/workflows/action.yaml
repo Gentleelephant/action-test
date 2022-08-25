@@ -1,16 +1,13 @@
 #
-# Copyright (C) 2022 Ing <https://github.com/wjz304>
+# Copyright (C) 2022 Ing <https://github.com/Gentleelephant>
 #
 # This is free software, licensed under the MIT License.
-# See /LICENSE for more information.
-#
 
 
-name: Custom Redpill
+name: Apply for mailbox
 on:
   issues:
     types: [opened, reopened]
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
       - name: Get Issues Info
-        if: github.event_name == 'issues'
+        if: github.event_name == 'issues' && github.event.issue.body != '' && github.event.issue.title != ''
         id: get-issues
         uses: actions/github-script@v6
         with:
@@ -94,7 +91,7 @@ jobs:
         uses: actions-cool/issues-helper@v3
         with:
           actions: 'close-issue'
-          if : ${{ env.env-mail != '' }}  &&  ${{ env.env-reply != '' }}  && ${{ success() }}
+          if : env.env-mail != '' && env.env-reply != '' && success()
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ env.env-issuenumber }}
           close-reason: completed
