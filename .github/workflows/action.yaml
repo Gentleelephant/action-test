@@ -228,19 +228,3 @@ jobs:
 #          actions: 'close-issue'
 #          token: ${{ secrets.GITHUB_TOKEN }}
 #          issue-number: ${{ env.issuenumber }}
-
----
-name: close-issues
-on:
-  schedule:
-    - cron: '5 * * * *'
-jobs:
-  close-issue:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Close issue
-      uses: actions-cool/issues-helper@v3
-      with:
-        actions: 'close-issue'
-        token: ${{ secrets.GITHUB_TOKEN }}
-        close-reason: 'completed'
