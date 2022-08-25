@@ -9,7 +9,7 @@
 name: Custom Redpill
 on:
   issues:
-    types: [opened, reopened]
+    types: [opened, reopened, labeled]
 
 # 回复issue
 jobs:
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: help wanted
-        if: github.event.label.name == 'open'
+        if: github.event.label.name == 'help wanted'
         uses: actions-cool/issues-helper@v3
         with:
           actions: 'create-comment'
