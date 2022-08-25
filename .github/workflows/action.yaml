@@ -2,127 +2,6 @@ name: Custom Redpill
 on:
   issues:
     types: [opened]
-#  workflow_dispatch:
-#    inputs:
-#      platform:
-#        description: '请选择你需要编译的型号'
-#        required: true
-#        default: 'DS3622xs+'
-#        type: choice
-#        options:
-#          - DS3615xs
-#          - DS3617xs
-#          - DS918+
-#          - DS920+
-#          - DS3622xs+
-#
-#      version:
-#        description: '请选择你需要编译的版本'
-#        required: true
-#        default: '7.1.0-42661'
-#        type: choice
-#        options:
-#          - 7.1.1-42951
-#          - 7.1.0-42661
-#          - 7.0.1-42218
-#          - 6.2.4-25556
-#
-#      map:
-#        description: '请输入控制器盘数(SataPortMap)和盘序(DiskIdxMap)两个字段, 并以","间隔. eg: 0, 10'
-#        required: false
-#        default: ''
-#        type: string
-#
-#      dtb:
-#        description: '【仅DS920+】请输入 dtb 文件的下载链接. (支持的文件类型: .dts、.dtb、.tar.gz、.zip)'
-#        required: false
-#        default: ''
-#        type: string
-#
-#      sn:
-#        description: '请输入序列号. 默认根据型号随机生成. eg: 1980PDN002189'
-#        required: false
-#        default: ''
-#        type: string
-#
-#      mac:
-#        description: '请输入MAC地址, 多个请以","间隔. 默认根据型号随机生成. eg: 001132888A95, 001132888A96'
-#        required: false
-#        default: ''
-#        type: string
-#
-#      usb:
-#        description: '请输入设备识别码(pid)和供应商ID(vid)两个字段, 并以","间隔. eg: 0xa4a5, 0x0525'
-#        required: false
-#        default: '0x0001, 0x46f4'
-#        type: string
-#
-#      ext:
-#        description: '请输入扩展驱动, 多个请以 "," 间隔（请酌情添加，太多起不来）. eg: r8125, tg3'
-#        required: false
-#        default: ''
-#        type: string
-#
-#      exp:
-#        description: '请选择编译依赖的基础库. (7.1 优先选 pocopico, 7.0/jun 优先选 jumkey.)'
-#        required: true
-#        default: 'pocopico'
-#        type: choice
-#        options:
-#          - 'pocopico'
-#          - 'jumkey'
-#
-#      jun:
-#        description: '请选择是否jun模式编译. (仅7.0.1-42218 版本可选, jun模式 支持 7.0.1~7.1.0u4 的 DSM.)'
-#        required: true
-#        default: '0'
-#        type: choice
-#        options:
-#          - '0'
-#          - '1'
-
-#  workflow_call:
-#    inputs:
-#      platform:
-#        required: true
-#        type: string
-#
-#      version:
-#        required: true
-#        type: string
-#
-#      map:
-#        required: true
-#        type: string
-#
-#      dtb:
-#        required: true
-#        type: string
-#
-#      sn:
-#        required: true
-#        type: string
-#
-#      mac:
-#        required: true
-#        type: string
-#
-#      usb:
-#        required: true
-#        type: string
-#
-#      ext:
-#        required: true
-#        type: string
-#
-#      exp:
-#        required: true
-#        type: string
-#
-#      jun:
-#        required: true
-#        type: string
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -131,9 +10,8 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-
-#      - name: Checkout
-#        uses: actions/checkout@main
+      - name: Checkout
+        uses: actions/checkout@main
 
 #      - name: Init Env
 #        run : |
