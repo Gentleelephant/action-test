@@ -131,23 +131,23 @@ on:
 #        required: true
 #        type: string
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.1.2
-
-      - name: Set up Python 3
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-
-      - name: Checkout
-        uses: actions/checkout@main
-
-      - run: echo "hello Github Action"
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: ruby/setup-ruby@v1
+#        with:
+#          ruby-version: 3.1.2
+#
+#      - name: Set up Python 3
+#        uses: actions/setup-python@v2
+#        with:
+#          python-version: 3.8
+#
+#      - name: Checkout
+#        uses: actions/checkout@main
+#
+#      - run: echo "hello Github Action"
 #      - name: Init Env
 #        run : |
 #          git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -156,6 +156,18 @@ jobs:
 #
 #          python -m pip install --upgrade pip setuptools
 #
+
+
+jobs:
+  print_context:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          EVENT_CONTEXT: ${{ toJSON(github.event) }}
+        run: |
+          echo $EVENT_CONTEXT
+
+
 #      - name: Get Issues Info
 #        if: github.event_name == 'issues'
 #        id: get-issues
