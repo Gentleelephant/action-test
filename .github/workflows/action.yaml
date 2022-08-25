@@ -143,56 +143,56 @@ jobs:
 #
 #          python -m pip install --upgrade pip setuptools
 
-      - name: Get Issues Info
-        if: github.event_name == 'issues'
-        id: get-issues
-        uses: actions/github-script@v6
-        with:
-          script: |
-            var issuenumber = ${{ toJSON(github.event.issue.number) }};
-            var issueauth = ${{ toJSON(github.event.issue.user.login) }};
-            var issuetitle = ${{ toJSON(github.event.issue.title) }};
-            var issuebody = ${{ toJSON(github.event.issue.body) }};
-
-#            var regex = /\`\`\`([\s\S]*?)\`\`\`/g;
-#            let options = issuebody.match(regex);
-#            if (options != null && options.length > 0) {
-#              var fs = require('fs'); // 引入fs模块
-#              fs.writeFileSync('customshell.sh', options[options.length-1].replace(/\`|\r/g, ""), { 'flag': 'w' }, (err) => { if (err) throw err; });
-#              for(option in options) {
-#                console.log(options[option]);
-#                issuebody = issuebody.replace(options[option], "");
-#              }
-#            }
-
-#            // '<???>': 替换一次; '/<???>/g': 替换全局; '/<???>/gi': 替换全局并忽略大小写;
-#            issuetitle = issuetitle.replace(/\u000A/g, "");  // \n 换行符
-#            issuetitle = issuetitle.replace(/\u000D/g, "");  // \r 回车
+#      - name: Get Issues Info
+#        if: github.event_name == 'issues'
+#        id: get-issues
+#        uses: actions/github-script@v6
+#        with:
+#          script: |
+#            var issuenumber = ${{ toJSON(github.event.issue.number) }};
+#            var issueauth = ${{ toJSON(github.event.issue.user.login) }};
+#            var issuetitle = ${{ toJSON(github.event.issue.title) }};
+#            var issuebody = ${{ toJSON(github.event.issue.body) }};
 #
-#            issuebody = issuebody.replace(/\u0008/g, "");  // \b Backspace
-#            issuebody = issuebody.replace(/\u0009/g, "");  // \t Tab
-#            issuebody = issuebody.replace(/\u000A/g, "");  // \n 换行符
-#            issuebody = issuebody.replace(/\u000B/g, "");  // \v 垂直制表符
-#            issuebody = issuebody.replace(/\u000C/g, "");  // \f 换页
-#            issuebody = issuebody.replace(/\u000D/g, "");  // \r 回车
-#            //issuebody = issuebody.replace(/\u0022/g, "");  // \" 双引号 (")
-#            //issuebody = issuebody.replace(/\u0027/g, "");  // \' 单引号 (')
-#            //issuebody = issuebody.replace(/\u005C/g, "");  // \\ 反斜杠 (\)
-#            issuebody = issuebody.replace(/\u00A0/g, "");  //    不间断空格
-#            issuebody = issuebody.replace(/\u2028/g, "");  //    行分隔符
-#            issuebody = issuebody.replace(/\u2029/g, "");  //    段落分隔符
-#            issuebody = issuebody.replace(/\uFEFF/g, "");  //    字节顺序标记
-
-#            // 容错
-#            issuebody = issuebody.replace(/：/g, ": ");
-#            issuebody = issuebody.replace(/，/g, ", ");
-#            issuebody = issuebody.replace(/“/g, "\"");
-#            issuebody = issuebody.replace(/”/g, "\"");
+##            var regex = /\`\`\`([\s\S]*?)\`\`\`/g;
+##            let options = issuebody.match(regex);
+##            if (options != null && options.length > 0) {
+##              var fs = require('fs'); // 引入fs模块
+##              fs.writeFileSync('customshell.sh', options[options.length-1].replace(/\`|\r/g, ""), { 'flag': 'w' }, (err) => { if (err) throw err; });
+##              for(option in options) {
+##                console.log(options[option]);
+##                issuebody = issuebody.replace(options[option], "");
+##              }
+##            }
 #
-            core.setOutput("issuenumber", JSON.stringify(issuenumber));
-            core.setOutput("issueauth", JSON.stringify(issueauth));
-            core.setOutput("issuetitle", JSON.stringify(issuetitle));
-            core.setOutput("issuebody", JSON.stringify(issuebody));
+##            // '<???>': 替换一次; '/<???>/g': 替换全局; '/<???>/gi': 替换全局并忽略大小写;
+##            issuetitle = issuetitle.replace(/\u000A/g, "");  // \n 换行符
+##            issuetitle = issuetitle.replace(/\u000D/g, "");  // \r 回车
+##
+##            issuebody = issuebody.replace(/\u0008/g, "");  // \b Backspace
+##            issuebody = issuebody.replace(/\u0009/g, "");  // \t Tab
+##            issuebody = issuebody.replace(/\u000A/g, "");  // \n 换行符
+##            issuebody = issuebody.replace(/\u000B/g, "");  // \v 垂直制表符
+##            issuebody = issuebody.replace(/\u000C/g, "");  // \f 换页
+##            issuebody = issuebody.replace(/\u000D/g, "");  // \r 回车
+##            //issuebody = issuebody.replace(/\u0022/g, "");  // \" 双引号 (")
+##            //issuebody = issuebody.replace(/\u0027/g, "");  // \' 单引号 (')
+##            //issuebody = issuebody.replace(/\u005C/g, "");  // \\ 反斜杠 (\)
+##            issuebody = issuebody.replace(/\u00A0/g, "");  //    不间断空格
+##            issuebody = issuebody.replace(/\u2028/g, "");  //    行分隔符
+##            issuebody = issuebody.replace(/\u2029/g, "");  //    段落分隔符
+##            issuebody = issuebody.replace(/\uFEFF/g, "");  //    字节顺序标记
+#
+##            // 容错
+##            issuebody = issuebody.replace(/：/g, ": ");
+##            issuebody = issuebody.replace(/，/g, ", ");
+##            issuebody = issuebody.replace(/“/g, "\"");
+##            issuebody = issuebody.replace(/”/g, "\"");
+##
+#            core.setOutput("issuenumber", JSON.stringify(issuenumber));
+#            core.setOutput("issueauth", JSON.stringify(issueauth));
+#            core.setOutput("issuetitle", JSON.stringify(issuetitle));
+#            core.setOutput("issuebody", JSON.stringify(issuebody));
 
 #      - name: Set Issues Info
 #        if: github.event_name == 'issues' && success()
