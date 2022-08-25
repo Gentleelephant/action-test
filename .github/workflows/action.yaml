@@ -10,8 +10,6 @@ name: Custom Redpill
 on:
   issues:
     types: [opened]
-
-
 jobs:
   helper:
     runs-on: ubuntu-latest
@@ -22,7 +20,7 @@ jobs:
       - name: Get Issues Info
         if: github.event_name == 'issues'
         id: get-issues
-        uses: actions/github-script@v5.11
+        uses: actions/github-script@v6
         with:
           script: |
             var issuenumber = ${{ toJSON(github.event.issue.number) }};
