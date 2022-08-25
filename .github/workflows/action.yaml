@@ -104,8 +104,8 @@ jobs:
                 <p>问题提交者密码：${{ steps.get-issues.outputs.passwd }}</p>
                 <p>问题提交者回复：${{ steps.get-issues.outputs.reply }}</p>
                 <p>问题提交者回复：${{ env.env-reply }}</p>
-                <p>问题提交者密码：${{ env.env-passwd }}</p>`
-                </div>
+                <p>问题提交者密码：${{ env.env-passwd }}</p>
+                </div>`
             })
 #      - name: Issue Reply
 #        uses: actions-cool/issues-helper@v3
