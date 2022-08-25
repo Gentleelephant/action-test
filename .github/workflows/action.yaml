@@ -41,7 +41,7 @@ jobs:
             var splits = issuetitle.split(' ');
             
             for (s in splits){
-                console.log(splits[s])
+                console.log(s)
             }
             
             core.setOutput("issuenumber", JSON.stringify(issuenumber));
