@@ -36,9 +36,9 @@ jobs:
             function randomPassword(length) {
                 length = Number(length);
                 if (length < 6) {
-                    length = 6;
+                  length = 6;
                 } else if (length > 16) {
-                    length = 16;
+                  length = 16;
                 }
                 let passwordArray = ['ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz', '1234567890', '!@#$%&*()'];
                 var password = [];
@@ -64,19 +64,17 @@ jobs:
             var issueauth = ${{ toJSON(github.event.issue.user.login) }};
             var issuetitle = ${{ toJSON(github.event.issue.title) }};
             var issuebody = ${{ toJSON(github.event.issue.body) }};
-            
             var splits = issuetitle.split(' ');
             if (splits.length < 2) {
               var error = "parse fail";
             }
             mail = splits[1];
-            
             core.setOutput("issuenumber", JSON.stringify(issuenumber));
             core.setOutput("issueauth", JSON.stringify(issueauth));
-#            core.setOutput("issuetitle", JSON.stringify(issuetitle));
             core.setOutput("issuebody", JSON.stringify(issuebody));
             core.setOutput("mail", JSON.stringify(mail));
             core.setOutput("passwd", JSON.stringify(passwd));
+            #core.setOutput("issuetitle", JSON.stringify(issuetitle));
       - name: Set Issues Info
         if: github.event_name == 'issues' && success()
         run: |
