@@ -93,7 +93,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: |
+              body:
                 '<div class="markdown-body">
                 <h3>您的问题已经提交成功，请等待管理员审核！</h3>
                 <p>问题标题：${{ steps.get-issues.outputs.issuetitle }}</p>
