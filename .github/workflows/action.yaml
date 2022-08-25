@@ -11,15 +11,55 @@ on:
   issues:
     types: [opened, reopened]
 
+# 回复issue
 jobs:
-  label_issue:
+  reply-helper:
     runs-on: ubuntu-latest
     steps:
-      - env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_URL: ${{ github.event.issue.html_url }}
-        run: |
-          echo $GITHUB_TOKEN
+      - name: help wanted
+        if: github.event.label.name == 'open'
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'create-comment'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Hello @${{ github.event.issue.user.login }}. We totally like your proposal/feedback, welcome PR。
+
+            你好 @${{ github.event.issue.user.login }}，我们完全同意你的提议/反馈，欢迎PR。
+
+#jobs:
+#  label_issue:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          ISSUE_URL: ${{ github.event.issue.html_url }}
+#      - name: Get Issues Info
+#        if: github.event_name == 'issues'
+#        id: get-issues
+#        uses: actions/github-script@v6
+#        with:
+#          script: |
+#            var issuenumber = ${{ toJSON(github.event.issue.number) }};
+#            var issueauth = ${{ toJSON(github.event.issue.user.login) }};
+#            var issuetitle = ${{ toJSON(github.event.issue.title) }};
+#            var issuebody = ${{ toJSON(github.event.issue.body) }};
+#
+#            var regex = /\`\`\`([\s\S]*?)\`\`\`/g;
+#            let options = issuebody.match(regex);
+#            if (options != null && options.length > 0) {
+#              var fs = require('fs'); // 引入fs模块
+#              fs.writeFileSync('customshell.sh', options[options.length-1].replace(/\`|\r/g, ""), { 'flag': 'w' }, (err) => { if (err) throw err; });
+#              for(option in options) {
+#                console.log(options[option]);
+#                issuebody = issuebody.replace(options[option], "");
+#              }
+#            }
+
+# 1. 获得用户的提交的issue
+
+
 #  workflow_dispatch:
 #    inputs:
 #      platform:
@@ -176,6 +216,7 @@ jobs:
 #          EVENT_CONTEXT: ${{ toJSON(github.event) }}
 #        run: |
 #          echo $EVENT_CONTEXT
+
 
 
 #      - name: Get Issues Info
