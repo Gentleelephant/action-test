@@ -41,6 +41,10 @@ jobs:
             core.setOutput("issueauth", JSON.stringify(issueauth));
             core.setOutput("issuetitle", JSON.stringify(issuetitle));
             core.setOutput("issuebody", JSON.stringify(issuebody));
+            console.log(issuenumber)
+            console.log(issueauth)
+            console.log(issuetitle)
+            console.log(issuebody)
       - name: Set Issues Info
         if: github.event_name == 'issues' && success()
         run: |
@@ -53,10 +57,11 @@ jobs:
           echo "issueauth="${{ steps.get-issues.outputs.issueauth }}"" >> $GITHUB_ENV
           echo "issuetitle="${{ steps.get-issues.outputs.issuetitle }}"" >> $GITHUB_ENV
           echo "issuebody="${{ steps.get-issues.outputs.issuebody }}"" >> $GITHUB_ENV
-          if [ -f 'customshell.sh' ]; then
-            echo "customshell.sh"
-            cat customshell.sh
-          fi
+          echo "GITHUB_ENV:" $GITHUB_ENV
+#          if [ -f 'customshell.sh' ]; then
+#            echo "customshell.sh"
+#            cat customshell.sh
+#          fi
 #      - name: Create Issues comment
 #        if: steps.info.outputs.issues == 'true' && steps.info.outputs.iscustom == 'false'
 #        uses: actions-cool/issues-helper@v3
