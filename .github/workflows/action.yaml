@@ -94,9 +94,9 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `
-                **申请邮箱：${{ env.env-mail }}**
-                **临时密码：${{ env.env-passwd }}**
-                **请点击[这里](http://wwwbaidu.com)尽快修改密码**
+                申请邮箱：${{ env.env-mail }}
+                临时密码：${{ env.env-passwd }}
+                请访问http://wwwbaidu.com尽快修改密码
             `
             })
 #      - name: Issue Reply
