@@ -57,7 +57,7 @@ jobs:
             core.setOutput("issuebody", JSON.stringify(issuebody));
             core.setOutput("mail", JSON.stringify(splits[1]));
             core.setOutput("reply", JSON.stringify(issuebody));
-#            core.setOutput("passwd", JSON.stringify(passwd));
+            core.setOutput("passwd", JSON.stringify(passwd));
       - name: Set Issues Info
         if: github.event_name == 'issues' && success()
         run: |
@@ -74,8 +74,8 @@ jobs:
           echo env-passwd=${{ steps.get-issues.outputs.passwd }} >> $GITHUB_ENV
           echo env-reply=${{ steps.get-issues.outputs.reply }} >> $GITHUB_ENV
       - name: Create comment
+        if: ${{ env.env-mail != '' }} && ${{ env.env-reply != '' }} && success()
         uses: actions/github-script@v6
-        if : ${{ env.env-mail != '' }} && ${{ env.env-reply != '' }} && success()
         with:
           script: |
             github.rest.issues.createComment({
@@ -90,9 +90,9 @@ jobs:
             })
       - name: Close issue
         uses: actions-cool/issues-helper@v3
+        if: ${{ env.env-mail != '' }} && ${{ env.env-reply }} != '' && success()
         with:
           actions: 'close-issue'
-          if : ${{ env.env-mail != '' }} && ${{ env.env-reply }} != '' && success()
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ env.env-issuenumber }}
           close-reason: completed
