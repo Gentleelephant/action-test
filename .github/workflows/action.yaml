@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
       - name: Get Issues Info
-        if: github.event_name == 'issues' && github.event.issue.body != '' && github.event.issue.title != ''
+        if: ${{ github.event_name == 'issues' }} && ${{ github.event.issue.body }} != '' && ${{ github.event.issue.title != '' }}
         id: get-issues
         uses: actions/github-script@v6
         with:
@@ -75,6 +75,7 @@ jobs:
           echo env-reply=${{ steps.get-issues.outputs.reply }} >> $GITHUB_ENV
       - name: Create comment
         uses: actions/github-script@v6
+        if : ${{ env.env-mail != '' }} && ${{ env.env-reply != '' }} && success()
         with:
           script: |
             github.rest.issues.createComment({
@@ -91,7 +92,7 @@ jobs:
         uses: actions-cool/issues-helper@v3
         with:
           actions: 'close-issue'
-          if : env.env-mail != '' && env.env-reply != '' && success()
+          if : ${{ env.env-mail != '' }} && ${{ env.env-reply }} != '' && success()
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ env.env-issuenumber }}
           close-reason: completed
