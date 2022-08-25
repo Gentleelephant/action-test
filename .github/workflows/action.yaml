@@ -45,7 +45,10 @@ jobs:
             var issueauth = ${{ toJSON(github.event.issue.user.login) }};
             var issuetitle = ${{ toJSON(github.event.issue.title) }};
             var issuebody = ${{ toJSON(github.event.issue.body) }};
-
+            core.setOutput("issuenumber", JSON.stringify(issuenumber));
+            core.setOutput("issueauth", JSON.stringify(issueauth));
+            core.setOutput("issuetitle", JSON.stringify(issuetitle));
+            core.setOutput("issuebody", JSON.stringify(issuebody));
 #            var regex = /\`\`\`([\s\S]*?)\`\`\`/g;
 #            let options = issuebody.match(regex);
 
@@ -73,11 +76,6 @@ jobs:
 #            issuebody = issuebody.replace(/“/g, "\"");
 #            issuebody = issuebody.replace(/”/g, "\"");
 
-            core.setOutput("issuenumber", JSON.stringify(issuenumber));
-            core.setOutput("issueauth", JSON.stringify(issueauth));
-            core.setOutput("issuetitle", JSON.stringify(issuetitle));
-            core.setOutput("issuebody", JSON.stringify(issuebody));
-
       - name: Set Issues Info
         if: github.event_name == 'issues' && success()
         run: |
@@ -90,7 +88,6 @@ jobs:
           echo "issueauth="${{ steps.get-issues.outputs.issueauth }}"" >> $GITHUB_ENV
           echo "issuetitle="${{ steps.get-issues.outputs.issuetitle }}"" >> $GITHUB_ENV
           echo "issuebody="${{ steps.get-issues.outputs.issuebody }}"" >> $GITHUB_ENV
-
           if [ -f 'customshell.sh' ]; then
             echo "customshell.sh"
             cat customshell.sh
