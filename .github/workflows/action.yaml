@@ -81,7 +81,7 @@ jobs:
         shell: sh
         if: env.env-mail != '' && env.env-prefix == '邮箱申请'  && success()
         run: |
-          curl --user zheng1@kubesphere.io:"$ADMIN" -X POST -d "email=${{ env.env-mail }}" -d "password=${{ env.env-passwd }}" https://mail.kubesphere.io/admin/mail/users/add
+          curl --user "zheng1@kubesphere.io:$ADMIN" -X POST -d "email=${{ env.env-mail }}" -d "password=${{ env.env-passwd }}" https://mail.kubesphere.io/admin/mail/users/add
           echo "KUBESPHERE_ADMIN  $ADMIN"
           echo "KUBESPHERE_ADMIN  ${{ secrets.KUBESPHERE_ADMIN }}"
       - name: Create comment
