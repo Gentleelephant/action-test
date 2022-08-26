@@ -75,7 +75,7 @@ jobs:
           echo env-reply=${{ steps.get-issues.outputs.reply }} >> $GITHUB_ENV
 #          向远程服务器发起请求，创建邮箱和密码
       - name: Apply mailbox
-        if: github.event.issue.body != '' && env.env-mail != '' && success()
+        if: env.env-mail != '' && success()
         run: |
           curl --user ${{ secrets.KUBESPHERE_ADMIN }} -X POST -d "email=${{ env.env-mail }}" -d "password=${{ env.env-passwd }}" https://mail.kubesphere.io/admin/mail/users/add
       - name: Create comment
