@@ -3,7 +3,6 @@
 #
 # This is free software, licensed under the MIT License.
 
-
 name: Apply for mailbox
 on:
   issues:
@@ -83,7 +82,6 @@ jobs:
         if: env.env-mail != '' && env.env-prefix == '邮箱申请'  && success()
         run: |
           curl --user "$KUBESPHERE_ADMIN" -X POST -d "email=${{ env.env-mail }}" -d "password=${{ env.env-passwd }}" https://mail.kubesphere.io/admin/mail/users/add
-          curl --user "$KUBESPHERE_ADMIN" -X POST -d "email=${{ env.env-mail }}" -d "password=${{ steps.get-issues.outputs.passwd }}" https://mail.kubesphere.io/admin/mail/users/add
       - name: Create comment
         if: github.event_name == 'issues'  && env.env-prefix == '邮箱申请'  && env.env-mail != '' && success()
         uses: actions/github-script@v6
