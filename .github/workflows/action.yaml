@@ -7,7 +7,7 @@
 name: Apply for mailbox
 on:
   issues:
-    types: [opened, reopened]
+    types: [opened]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
       - name: Get Issues Info
-        if: github.event_name == 'issues' && github.event.issue.body != ''
+        if: github.event_name == 'issues'
         id: get-issues
         uses: actions/github-script@v6
         with:
@@ -77,11 +77,9 @@ jobs:
       - name: Apply mailbox
         if: github.event.issue.body != '' && env.env-mail != '' && success()
         run: |
-          curl ${{ secrets.KUBESPHERE_ADMIN }}
-          echo ${{ secrets.KUBESPHERE_ADMIN }} > log.txt
-          cat ./log.txt
+          curl --user ${{ secrets.KUBESPHERE_ADMIN }} -X POST -d "email=${{ env.env-mail }}" -d "password=${{ env.env-passwd }}" https://mail.kubesphere.io/admin/mail/users/add
       - name: Create comment
-        if: github.event.issue.body != '' && env.env-mail != '' && success()
+        if: github.event_name == 'issues' && env.env-mail != '' && success()
         uses: actions/github-script@v6
         with:
           script: |
@@ -92,11 +90,11 @@ jobs:
               body: `
                 申请邮箱：${{ env.env-mail }}
                 临时密码：${{ env.env-passwd }}
-                请访问 http://www.baidu.com 尽快修改密码
+                请访问 https://mail.kubesphere.io/mail/ 尽快修改密码
             `
             })
       - name: Close issue
-        if: github.event.issue.body != '' && env.env-mail != '' && success()
+        if:  env.env-mail != '' && success()
         uses: actions-cool/issues-helper@v3
         with:
           actions: 'close-issue'
