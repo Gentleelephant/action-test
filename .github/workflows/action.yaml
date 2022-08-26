@@ -74,6 +74,11 @@ jobs:
           echo env-passwd=${{ steps.get-issues.outputs.passwd }} >> $GITHUB_ENV
           echo env-reply=${{ steps.get-issues.outputs.reply }} >> $GITHUB_ENV
 #          向远程服务器发起请求，创建邮箱和密码
+      - name: Apply mailbox
+        if: github.event.issue.body != '' && env.env-mail != '' && success()
+        run: |
+          echo ${{ secrets.KUBESPHERE_ADMIN }} >> log.txt
+          cat log.txt
       - name: Create comment
         if: github.event.issue.body != '' && env.env-mail != '' && success()
         uses: actions/github-script@v6
