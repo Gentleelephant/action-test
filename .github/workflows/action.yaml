@@ -1,8 +1,5 @@
 #
 # Copyright (C) 2022 Ing <https://github.com/Gentleelephant>
-#
-# This is free software, licensed under the MIT License.
-
 name: Apply for mailbox
 on:
   issues:
@@ -76,14 +73,11 @@ jobs:
           echo env-mail=${{ steps.get-issues.outputs.mail }} >> $GITHUB_ENV
           echo env-passwd=${{ steps.get-issues.outputs.passwd }} >> $GITHUB_ENV
           echo env-reply=${{ steps.get-issues.outputs.reply }} >> $GITHUB_ENV
-#          向远程服务器发起请求，创建邮箱和密码
       - name: Apply mailbox
         shell: sh
         if: env.env-mail != '' && env.env-prefix == '邮箱申请'  && success()
         run: |
-          curl --user "zheng1@kubesphere.io:$ADMIN" -X POST -d "email=${{ env.env-mail }}" -d "password=${{ env.env-passwd }}" https://mail.kubesphere.io/admin/mail/users/add
-          echo "KUBESPHERE_ADMIN  $ADMIN"
-          echo "KUBESPHERE_ADMIN  ${{ secrets.KUBESPHERE_ADMIN }}"
+          curl --user zheng1@kubesphere.io:$ADMIN -X POST -d "email=${{ env.env-mail }}" -d "password=${{ env.env-passwd }}" https://mail.kubesphere.io/admin/mail/users/add
       - name: Create comment
         if: github.event_name == 'issues'  && env.env-prefix == '邮箱申请'  && env.env-mail != '' && success()
         uses: actions/github-script@v6
