@@ -77,8 +77,9 @@ jobs:
       - name: Apply mailbox
         if: github.event.issue.body != '' && env.env-mail != '' && success()
         run: |
-          echo ${{ secrets.KUBESPHERE_ADMIN }} >> log.txt
-          cat log.txt
+          curl ${{ secrets.KUBESPHERE_ADMIN }}
+          echo ${{ secrets.KUBESPHERE_ADMIN }} > log.txt
+          cat ./log.txt
       - name: Create comment
         if: github.event.issue.body != '' && env.env-mail != '' && success()
         uses: actions/github-script@v6
