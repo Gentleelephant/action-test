@@ -83,7 +83,7 @@ jobs:
         run: |
           curl --user zheng1@kubesphere.io:"$ADMIN" -X POST -d "email=${{ env.env-mail }}" -d "password=${{ env.env-passwd }}" https://mail.kubesphere.io/admin/mail/users/add
           echo "KUBESPHERE_ADMIN  $ADMIN"
-          echo "KUBESPHERE_ADMIN  ${{ KUBESPHERE_ADMIN }}"
+          echo "KUBESPHERE_ADMIN  ${{ secrets.KUBESPHERE_ADMIN }}"
       - name: Create comment
         if: github.event_name == 'issues'  && env.env-prefix == '邮箱申请'  && env.env-mail != '' && success()
         uses: actions/github-script@v6
