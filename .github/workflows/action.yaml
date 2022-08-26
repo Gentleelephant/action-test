@@ -55,7 +55,7 @@ jobs:
             core.setOutput("issuenumber", JSON.stringify(issuenumber));
             core.setOutput("issueauth", JSON.stringify(issueauth));
             core.setOutput("issuebody", JSON.stringify(issuebody));
-            core.setOutput("prefix", JSON.stringfy(splits[0]))
+            core.setOutput("prefix", JSON.stringify(splits[0]))
             core.setOutput("mail", JSON.stringify(splits[1]));
             core.setOutput("reply", JSON.stringify(issuebody));
             core.setOutput("passwd", JSON.stringify(passwd));
