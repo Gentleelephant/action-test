@@ -31,6 +31,7 @@ jobs:
         if: github.event_name == 'issues'
         uses: jannekem/run-python-script-action@v1.2
         with:
+          fail-on-error: false
           script: |
             def parseString(strs):
                 splits = strs.split("\r\n")
