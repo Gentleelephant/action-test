@@ -44,6 +44,9 @@ jobs:
               results = parseString(issuebody)
               applyMail = results[0]
               replyMail = results[1]
+              print("Doing something that will fail")
+              a = []
+              a[10]
               set_env('ISSUE_NUMBER',str(issuenumber))
               set_env('ISSUE_AUTH',issueauth)
               set_env('ISSUE_TITLE',issuetitle)
