@@ -29,7 +29,6 @@ jobs:
         uses: jannekem/run-python-script-action@v1.2
         id: script
         with:
-          fail-on-error: false
           script: |
             import re
             def validateEmail(email):
@@ -49,7 +48,7 @@ jobs:
               applyMail = results[0]
               replyMail = results[1]
               bo1 = validateEmail(applyMail)
-              bo2 = validateEmail(replyMAil)
+              bo2 = validateEmail(replyMail)
               if not (bo1 and bo2):
                 raise ValueError("Invalid Email")
               set_env('ISSUE_NUMBER',str(issuenumber))
