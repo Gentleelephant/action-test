@@ -32,10 +32,8 @@ jobs:
           script: |
             import re
             def validateEmail(email):
-              if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email) != None:
-                return True
-              else:
-                return False
+              if not (re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email) != None):
+                raise ValueError("Invalid Email",email)
             def parseString(strs):
                 splits = strs.split("\r\n")
                 return splits[0].split(":")[1], splits[1].split(":")[1]
@@ -47,10 +45,8 @@ jobs:
               results = parseString(issuebody)
               applyMail = results[0]
               replyMail = results[1]
-              bo1 = validateEmail(applyMail)
-              bo2 = validateEmail(replyMail)
-              if not (bo1 and bo2):
-                raise ValueError("Invalid Email")
+              validateEmail(applyMail)
+              validateEmail(replyMail)
               set_env('ISSUE_NUMBER',str(issuenumber))
               set_env('ISSUE_AUTH',issueauth)
               set_env('ISSUE_TITLE',issuetitle)
