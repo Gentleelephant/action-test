@@ -121,8 +121,6 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `
-#                申请邮箱：${{ env.env-mail }}
-#                临时密码：${{ env.env-passwd }}
                 申请成功
                 请访问 https://mail.kubesphere.io/mail/ 尽快修改密码
             `
