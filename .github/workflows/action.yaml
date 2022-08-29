@@ -80,8 +80,8 @@ jobs:
                   "email": "${{ env.APPLY_MAIL }}",
                   "password": mailPassword,
                 })
-                print(r.text)
-                set_env('MESSAGE',r.text)
+                print(resp.text)
+                set_env('MESSAGE',resp.text)
                 # 发件人
                 username = '${{ secrets.MAIL_SENDER }}'
                 # 授权码密码
