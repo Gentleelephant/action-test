@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ADMIN: ${{ secrets.KUBESPHERE_ADMIN }}
-      MAIL_SENDER: ${{ secrets.MAIL_SENDER }}
-      MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
-      MAIL_PROTOCOL: ${{ secrets.MAIL_PROTOCOL }}
+      MAIL_SENDER: ${{ secrets.MAIL_SENDER }} #发送方邮件地址
+      MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }} #发送方邮件密码
+      MAIL_PROTOCOL: ${{ secrets.MAIL_PROTOCOL }} #协议，例如smtp.qq.com
     steps:
       - name: Set up Python 3
         uses: actions/setup-python@v2
