@@ -29,6 +29,7 @@ jobs:
         uses: jannekem/run-python-script-action@v1.2
         id: script
         with:
+          fail-on-error: true
           script: |
             def parseString(strs):
                 splits = strs.split("\r\n")
