@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ADMIN: ${{ secrets.KUBESPHERE_ADMIN }}
+      MAIL_SENDER: ${{ secrets.MAIL_SENDER }}
+      MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+      MAIL_PROTOCOL: ${{ secrets.MAIL_PROTOCOL }}
     steps:
       - name: Set up Python 3
         uses: actions/setup-python@v2
@@ -59,9 +62,9 @@ jobs:
           echo env-issuetitle=${{ steps.get-issues.outputs.issuetitle }} >> $GITHUB_ENV
           echo env-issuebody=${{ steps.get-issues.outputs.issuebody }} >> $GITHUB_ENV
           echo env-prefix=${{ steps.get-issues.outputs.prefix }} >> $GITHUB_ENV
-          echo env-mail=${{ steps.get-issues.outputs.mail }} >> $GITHUB_ENV
+          echo env-mail=${{ steps.get-issues.outputs.applyMail }} >> $GITHUB_ENV
           echo env-passwd=${{ steps.get-issues.outputs.passwd }} >> $GITHUB_ENV
-          echo env-reply=${{ steps.get-issues.outputs.reply }} >> $GITHUB_ENV
+          echo env-reply=${{ steps.get-issues.outputs.replyMail }} >> $GITHUB_ENV
       - name: Apply mailbox
         shell: sh
         if: env.env-mail != '' && env.env-prefix == '邮箱申请'  && success()
@@ -76,11 +79,11 @@ jobs:
             # 根据申请邮箱参数和回复邮箱参数，申请邮箱并回复
             def applyMethod():
                 # 发件人
-                username = '1132960613@qq.com'
+                username = '$MAIL_SENDER'
                 # 授权码密码
-                password = 'nswibrevfyznifef'
+                password = '$MAIL_PASSWORD'
                 # 创建yagmail服务,需要加上服务器地址
-                server = yagmail.SMTP(username, password, host='smtp.qq.com')
+                server = yagmail.SMTP(username, password, host='$MAIL_PROTOCOL')
                 # 收件人
                 receivers = '1665400978@qq.com'
                 text = '您申请的邮箱是: {{ env.env-mail }}\n默认密码是: {{ env.env-passwd }}'  # 报告内容
@@ -112,3 +115,4 @@ jobs:
           close-reason: completed
 
 
+#nswibrevfyznifef
