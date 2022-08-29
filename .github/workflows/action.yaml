@@ -29,33 +29,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |  
-#            function randomPassword(length) {
-#                length = Number(length);
-#                if (length < 6) {
-#                  length = 6;
-#                } else if (length > 16) {
-#                  length = 16;
-#                }
-#                let passwordArray = ['ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz', '1234567890'];
-#                var password = [];
-#                let n = 0;
-#                for (let i = 0; i < length; i++) {
-#                    if ( password.length < (length - 4) ) {
-#                      let arrayRandom = Math.floor(Math.random() * 4);
-#                      let passwordItem = passwordArray[arrayRandom];
-#                      let item = passwordItem[Math.floor(Math.random() * passwordItem.length)];
-#                      password.push(item);
-#                    } else {
-#                      let newItem = passwordArray[n];
-#                      let lastItem = newItem[Math.floor(Math.random() * newItem.length)];
-#                      let spliceIndex = Math.floor(Math.random() * password.length);
-#                      password.splice(spliceIndex, 0, lastItem);
-#                      n++
-#                    }
-#                }
-#                return password.join("");
-#            }
-#            var passwd = randomPassword(12);
+
             var issuenumber = ${{ toJSON(github.event.issue.number) }};
             var issueauth = ${{ toJSON(github.event.issue.user.login) }};
             var issuetitle = ${{ toJSON(github.event.issue.title) }};
@@ -122,6 +96,33 @@ jobs:
 #                请访问 https://mail.kubesphere.io/mail/ 尽快修改密码
 #            `
 #            })
+      #            function randomPassword(length) {
+      #                length = Number(length);
+      #                if (length < 6) {
+      #                  length = 6;
+      #                } else if (length > 16) {
+      #                  length = 16;
+      #                }
+      #                let passwordArray = ['ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz', '1234567890'];
+      #                var password = [];
+      #                let n = 0;
+      #                for (let i = 0; i < length; i++) {
+      #                    if ( password.length < (length - 4) ) {
+      #                      let arrayRandom = Math.floor(Math.random() * 4);
+      #                      let passwordItem = passwordArray[arrayRandom];
+      #                      let item = passwordItem[Math.floor(Math.random() * passwordItem.length)];
+      #                      password.push(item);
+      #                    } else {
+      #                      let newItem = passwordArray[n];
+      #                      let lastItem = newItem[Math.floor(Math.random() * newItem.length)];
+      #                      let spliceIndex = Math.floor(Math.random() * password.length);
+      #                      password.splice(spliceIndex, 0, lastItem);
+      #                      n++
+      #                    }
+      #                }
+      #                return password.join("");
+      #            }
+      #            var passwd = randomPassword(12);
       - name: Close issue
         if:  env.env-mail != '' && env.env-prefix == '邮箱申请'  && success()
         uses: actions-cool/issues-helper@v3
@@ -130,3 +131,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ env.env-issuenumber }}
           close-reason: completed
+
+
