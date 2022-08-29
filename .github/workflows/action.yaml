@@ -71,11 +71,6 @@ jobs:
       - name: Set Issues Info
         if: github.event_name == 'issues' && success()
         run: |
-#          echo issuenumber: ${{ steps.get-issues.outputs.issuenumber }}
-#          echo issueauth:   ${{ steps.get-issues.outputs.issueauth }}
-#          echo mail: ${{ steps.get-issues.outputs.mail }}
-#          echo passwd: ${{ steps.get-issues.outputs.passwd }}
-#          echo issuebody:   ${{ steps.get-issues.outputs.issuebody }}
           echo env-issuenumber=${{ steps.get-issues.outputs.issuenumber }} >> $GITHUB_ENV
           echo env-issueauth=${{ steps.get-issues.outputs.issueauth }} >> $GITHUB_ENV
           echo env-issuetitle=${{ steps.get-issues.outputs.issuetitle }} >> $GITHUB_ENV
