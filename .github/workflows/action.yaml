@@ -48,7 +48,7 @@ jobs:
               set_env('REPLY_MAIL',replyMail)
               error('this is test error')
       - name: Reply mail
-        if: steps.script.outputs.error != 'true' && env.APPLY_MAIL != '' && env.ISSUE_TITLE == '申请邮箱'  && success()
+        if: env.APPLY_MAIL != '' && env.ISSUE_TITLE == '申请邮箱'  && success()
         uses: jannekem/run-python-script-action@v1.2
         with:
           script: |
@@ -78,6 +78,8 @@ jobs:
                 title = '邮箱申请回复'
                 server.send(contents=text, to=receivers, subject=title)
             if __name__ == '__main__':
+                ss = '${{ steps.script.outputs.error }}'
+                print(ss)
                 applyMethod()
       - name: Create comment
         if: github.event_name == 'issues'  && env.ISSUE_TITLE == '申请邮箱'  && env.APPLY_MAIL != '' && success()
