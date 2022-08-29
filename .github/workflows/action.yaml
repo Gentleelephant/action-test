@@ -30,6 +30,7 @@ jobs:
       - name: Set env
         if: github.event_name == 'issues'
         uses: jannekem/run-python-script-action@v1.2
+        id: script
         with:
           fail-on-error: false
           script: |
@@ -52,6 +53,14 @@ jobs:
               set_env('ISSUE_TITLE',issuetitle)
               set_env('APPLY_MAIL',applyMail)
               set_env('REPLY_MAIL',replyMail)
+      - name: Print errors
+        if: steps.script.outputs.error == 'true'
+        run: |
+          printenv "SCRIPT_STDOUT"
+          printenv "SCRIPT_STDERR"
+        env:
+          SCRIPT_STDOUT: ${{ steps.script.outputs.stdout }}
+          SCRIPT_STDERR: ${{ steps.script.outputs.stderr }}
       - name: Reply mail
         if: env.APPLY_MAIL != '' && env.ISSUE_TITLE == '申请邮箱'  && success()
         uses: jannekem/run-python-script-action@v1.2
