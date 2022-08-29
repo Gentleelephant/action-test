@@ -78,9 +78,10 @@ jobs:
                 mailPassword = genPassword(12)
                 resp = requests.post('https://mail.kubesphere.io/admin/mail/users/add',auth=HTTPBasicAuth('zheng1@kubesphere.io','admin'),data={
                   "email": "${{ env.APPLY_MAIL }}",
-                  "password": mailPAssword,
+                  "password": mailPassword,
                 })
                 print(r.text)
+                set_env('MESSAGE',r.text)
                 # 发件人
                 username = '${{ secrets.MAIL_SENDER }}'
                 # 授权码密码
@@ -104,7 +105,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `
-                ${{ env.PPLY_MAIL }}邮箱申请成功
+                详细输出: ${{ env.MESSAGE }}
                 请访问 https://mail.kubesphere.io/mail/ 尽快修改密码
             `
             })
