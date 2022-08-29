@@ -29,15 +29,16 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |  
-
             var issuenumber = ${{ toJSON(github.event.issue.number) }};
             var issueauth = ${{ toJSON(github.event.issue.user.login) }};
             var issuetitle = ${{ toJSON(github.event.issue.title) }};
             var issuebody = ${{ toJSON(github.event.issue.body) }};
             var splits = issuebody.split('\n')
+            var applyMail = (splits[0].split(':'))[1]
+            var replyMail = (splits[1].split(':'))[1]
             
-            console.log(splits[0])
-            console.log(splits[1])
+            console.log(applyMail)
+            console.log(replyMail)
             
             core.setOutput("issuenumber", JSON.stringify(issuenumber));
             core.setOutput("issueauth", JSON.stringify(issueauth));
