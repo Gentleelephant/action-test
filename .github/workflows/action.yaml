@@ -8,7 +8,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      ADMIN: ${{ secrets.KUBESPHERE_ADMIN }}
+      ADMIN_USER: "zheng1@kubesphere.io"
+      ADMIN_PASSWD: ${{ secrets.ADMIN_PASSWD }}
       MAIL_SENDER: ${{ secrets.MAIL_SENDER }} #发送方邮件地址
       MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }} #发送方邮件密码
       MAIL_PROTOCOL: ${{ secrets.MAIL_PROTOCOL }} #协议，例如smtp.qq.com
@@ -63,7 +64,7 @@ jobs:
             # 根据申请邮箱参数和回复邮箱参数，申请邮箱并回复
             def applyMethod():
                 mailPassword = genPassword(12)
-                resp = requests.post('https://mail.kubesphere.io/admin/mail/users/add',auth=HTTPBasicAuth('zheng1@kubesphere.io','admin'),data={
+                resp = requests.post('https://mail.kubesphere.io/admin/mail/users/add',auth=HTTPBasicAuth('"${{env.ADMIN_USER}}"','"${{ env.ADMIN_PASSWD }}"'),data={
                   "email": "${{ env.APPLY_MAIL }}",
                   "password": mailPassword,
                 })
