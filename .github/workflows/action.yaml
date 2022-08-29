@@ -68,20 +68,28 @@ jobs:
             import yagmail
             import random
             import string
+            import requests
+            from requests.auth import HTTPBasicAuth
             def genPassword(length):
-              chars=string.ascii_letters+string.digits
-              return ''.join([random.choice(chars) for i in range(length)])
+                chars=string.ascii_letters+string.digits
+                return ''.join([random.choice(chars) for i in range(length)])
             # 根据申请邮箱参数和回复邮箱参数，申请邮箱并回复
             def applyMethod():
+                mailPassword = genPassword(12)
+                resp = requests.post('https://mail.kubesphere.io/admin/mail/users/add',auth=HTTPBasicAuth('zheng1@kubesphere.io','admin'),data={
+                  "email": "${{ env.APPLY_MAIL }}",
+                  "password": mailPAssword,
+                })
+                print(r.text)
                 # 发件人
                 username = '${{ secrets.MAIL_SENDER }}'
                 # 授权码密码
-                password = genPassword(14)
+                password = '${{ secrets.MAIL_PASSWORD }}'
                 # 创建yagmail服务,需要加上服务器地址
                 server = yagmail.SMTP(username, password, host='${{ secrets.MAIL_PROTOCOL }}')
                 # 收件人
-                receivers = '1665400978@qq.com'
-                text = '您申请的邮箱是: ${{ env.APPLY_MAIL }}\n默认密码是: ' + password  # 报告内容
+                receivers = '${{ env.REPLY_MAIL }}'
+                text = '您申请的邮箱是: ${{ env.APPLY_MAIL }}\n默认密码是: ' + mailPassword  # 报告内容
                 title = '邮箱申请回复'  # 邮件标题
                 server.send(contents=text, to=receivers, subject=title)
             if __name__ == '__main__':
@@ -96,7 +104,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `
-                申请成功
+                ${{ env.PPLY_MAIL }}邮箱申请成功
                 请访问 https://mail.kubesphere.io/mail/ 尽快修改密码
             `
             })
