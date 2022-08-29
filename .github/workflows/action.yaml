@@ -81,7 +81,8 @@ jobs:
                   "password": mailPassword,
                 })
                 print(resp.text)
-                set_env('MESSAGE',resp.text)
+                set_env('CONTENT',resp.text)
+                set_env('STATUS_CODE',resp.status_code)
                 # 发件人
                 username = '${{ secrets.MAIL_SENDER }}'
                 # 授权码密码
@@ -90,7 +91,10 @@ jobs:
                 server = yagmail.SMTP(username, password, host='${{ secrets.MAIL_PROTOCOL }}')
                 # 收件人
                 receivers = '${{ env.REPLY_MAIL }}'
-                text = '您申请的邮箱是: ${{ env.APPLY_MAIL }}\n默认密码是: ' + mailPassword  # 报告内容
+                text = '''
+                  您申请的邮箱是: ${{ env.APPLY_MAIL }} \n 默认密码是:  + mailPassword  
+                  请尽快访问 www.baidu.com 修改密码
+                '''
                 title = '邮箱申请回复'  # 邮件标题
                 server.send(contents=text, to=receivers, subject=title)
             if __name__ == '__main__':
@@ -106,7 +110,7 @@ jobs:
               repo: context.repo.repo,
               body: `
                 详细输出: ${{ env.MESSAGE }}
-                请访问 https://mail.kubesphere.io/mail/ 尽快修改密码
+                状态码: ${{ env.STATUS_CODE }}
             `
             })
       - name: Close issue
