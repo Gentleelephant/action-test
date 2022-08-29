@@ -91,7 +91,7 @@ jobs:
                 server = yagmail.SMTP(username, password, host='${{ secrets.MAIL_PROTOCOL }}')
                 # 收件人
                 receivers = '${{ env.REPLY_MAIL }}'
-                text = ' 您申请的邮箱是: ${{ env.APPLY_MAIL }} \n 默认密码是: mailPassword \n 请尽快访问 www.baidu.com 修改密码'
+                text = '您申请的邮箱是: ${{ env.APPLY_MAIL }}\n' + '默认密码是: mailPassword\n' + '请尽快访问 www.baidu.com 修改密码'
                 title = '邮箱申请回复'  # 邮件标题
                 server.send(contents=text, to=receivers, subject=title)
             if __name__ == '__main__':
