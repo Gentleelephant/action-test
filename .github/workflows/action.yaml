@@ -54,11 +54,11 @@ jobs:
           echo ISSUE_BODY=${{ steps.get-issues.outputs.ISSUE_BODY }} >> $GITHUB_ENV
           echo APPLY_MAIL=${{ steps.get-issues.outputs.APPLY_MAIL }} >> $GITHUB_ENV
           echo REPLY_MAIL=${{ steps.get-issues.outputs.REPLY_MAIL }} >> $GITHUB_ENV
-      - name: Apply mailbox
-        shell: sh
-        if: env.APPLY_MAIL != '' && env.ISSUE_TITLE == '申请邮箱'  && success()
-        run: |
-          curl --user zheng1@kubesphere.io:$ADMIN -X POST -d "email=${{ env.env-mail }}" -d "password=${{ env.env-passwd }}" https://mail.kubesphere.io/admin/mail/users/add
+#      - name: Apply mailbox
+#        shell: sh
+#        if: env.APPLY_MAIL != '' && env.ISSUE_TITLE == '申请邮箱'  && success()
+#        run: |
+#          curl --user zheng1@kubesphere.io:$ADMIN -X POST -d "email=${{ env.env-mail }}" -d "password=${{ env.env-passwd }}" https://mail.kubesphere.io/admin/mail/users/add
       - name: Reply mail
         if: env.APPLY_MAIL != '' && env.ISSUE_TITLE == '申请邮箱'  && success()
         uses: jannekem/run-python-script-action@v1.2
