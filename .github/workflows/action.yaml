@@ -18,21 +18,17 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      - run: pip install --upgrade pip setuptools
-      - run: pip install yagmail
-        
       - name: Checkout
         uses: actions/checkout@main
-      #      - name: Init Env
-      #        run: |
-      #          python -m pip install --upgrade pip setuptools
-      #          python -m pip install yagmail
+      - name: Init Env
+        run: |
+          python -m pip install --upgrade pip setuptools
+          python -m pip install yagmail
       - name: Set env
         if: github.event_name == 'issues'
         uses: jannekem/run-python-script-action@v1.2
         id: script
         with:
-          fail-on-error: false
           script: |
             def parseString(strs):
                 splits = strs.split("\r\n")
@@ -45,24 +41,14 @@ jobs:
               results = parseString(issuebody)
               applyMail = results[0]
               replyMail = results[1]
-              print("Doing something that will fail")
-              a = []
-              a[10]
               set_env('ISSUE_NUMBER',str(issuenumber))
               set_env('ISSUE_AUTH',issueauth)
               set_env('ISSUE_TITLE',issuetitle)
               set_env('APPLY_MAIL',applyMail)
               set_env('REPLY_MAIL',replyMail)
-      - name: Print errors
-        if: steps.script.outputs.error == 'true'
-        run: |
-          printenv "SCRIPT_STDOUT"
-          printenv "SCRIPT_STDERR"
-        env:
-          SCRIPT_STDOUT: ${{ steps.script.outputs.stdout }}
-          SCRIPT_STDERR: ${{ steps.script.outputs.stderr }}
+              error('this is test error')
       - name: Reply mail
-        if: env.APPLY_MAIL != '' && env.ISSUE_TITLE == '申请邮箱'  && success()
+        if: steps.script.outputs.error != 'true' && env.APPLY_MAIL != '' && env.ISSUE_TITLE == '申请邮箱'  && success()
         uses: jannekem/run-python-script-action@v1.2
         with:
           script: |
