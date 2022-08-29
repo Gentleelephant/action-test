@@ -79,11 +79,11 @@ jobs:
             # 根据申请邮箱参数和回复邮箱参数，申请邮箱并回复
             def applyMethod():
                 # 发件人
-                username = '${{ env.MAIL_SENDER }}'
+                username = '${{ secrets.MAIL_SENDER }}'
                 # 授权码密码
-                password = '${{ MAIL_PASSWORD }}'
+                password = '${{ secrets.MAIL_PASSWORD }}'
                 # 创建yagmail服务,需要加上服务器地址
-                server = yagmail.SMTP(username, password, host='${{ env.MAIL_PROTOCOL }}')
+                server = yagmail.SMTP(username, password, host='${{ secrets.MAIL_PROTOCOL }}')
                 # 收件人
                 receivers = '1665400978@qq.com'
                 text = '您申请的邮箱是: ${{ env.env-mail }}\n默认密码是: ${{ env.env-passwd }}'  # 报告内容
