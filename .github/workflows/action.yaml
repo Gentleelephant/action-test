@@ -25,26 +25,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip setuptools
           python -m pip install yagmail
-#      - name: Get Issues Info
-#        if: github.event_name == 'issues'
-#        id: get-issues
-#        uses: actions/github-script@v6
-#        with:
-#          script: |
-#            var issuenumber = ${{ toJSON(github.event.issue.number) }};
-#            var issueauth = ${{ toJSON(github.event.issue.user.login) }};
-#            var issuetitle = ${{ toJSON(github.event.issue.title) }};
-#            var issuebody = ${{ toJSON(github.event.issue.body) }};
-#            var splits = issuebody.split('\r\n')
-#            var applyMail = (splits[0].split(':'))[1]
-#            var replyMail = (splits[1].split(':'))[1]
-#
-#            core.setOutput("ISSUE_NUMBER", JSON.stringify(issuenumber));
-#            core.setOutput("ISSUE_TITLE", JSON.stringify(issuetitle));
-#            core.setOutput("ISSUE_AUTH", JSON.stringify(issueauth));
-#            core.setOutput("ISSUE_BODY", JSON.stringify(issuebody));
-#            core.setOutput("APPLY_MAIL", JSON.stringify(applyMail))
-#            core.setOutput("REPLY_MAIL", JSON.stringify(replyMail));
       - name: Set env
         if: github.event_name == 'issues'
         uses: jannekem/run-python-script-action@v1.2
@@ -66,20 +46,6 @@ jobs:
               set_env('ISSUE_TITLE',issuetitle)
               set_env('APPLY_MAIL',applyMail)
               set_env('REPLY_MAIL',replyMail)
-#      - name: Set Issues Info
-#        if: github.event_name == 'issues' && success()
-#        run: |
-#          echo ISSUE_NUMBER=${{ steps.get-issues.outputs.ISSUE_NUMBER }} >> $GITHUB_ENV
-#          echo ISSUE_AUTH=${{ steps.get-issues.outputs.ISSUE_AUTH }} >> $GITHUB_ENV
-#          echo ISSUE_TITLE=${{ steps.get-issues.outputs.ISSUE_TITLE }} >> $GITHUB_ENV
-#          echo ISSUE_BODY=${{ steps.get-issues.outputs.ISSUE_BODY }} >> $GITHUB_ENV
-#          echo APPLY_MAIL=${{ steps.get-issues.outputs.APPLY_MAIL }} >> $GITHUB_ENV
-#          echo REPLY_MAIL=${{ steps.get-issues.outputs.REPLY_MAIL }} >> $GITHUB_ENV
-#      - name: Apply mailbox
-#        shell: sh
-#        if: env.APPLY_MAIL != '' && env.ISSUE_TITLE == '申请邮箱'  && success()
-#        run: |
-#          curl --user zheng1@kubesphere.io:$ADMIN -X POST -d "email=${{ env.env-mail }}" -d "password=${{ env.env-passwd }}" https://mail.kubesphere.io/admin/mail/users/add
       - name: Reply mail
         if: env.APPLY_MAIL != '' && env.ISSUE_TITLE == '申请邮箱'  && success()
         uses: jannekem/run-python-script-action@v1.2
@@ -134,4 +100,3 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ env.ISSUE_NUMBER }}
           close-reason: completed
-#nswibrevfyznifef
