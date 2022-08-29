@@ -35,7 +35,9 @@ jobs:
             var issuetitle = ${{ toJSON(github.event.issue.title) }};
             var issuebody = ${{ toJSON(github.event.issue.body) }};
             var splits = issuebody.split('\n')
-            console.log(issuebody)
+            
+            console.log(splits[0])
+            console.log(splits[1])
             
             core.setOutput("issuenumber", JSON.stringify(issuenumber));
             core.setOutput("issueauth", JSON.stringify(issueauth));
