@@ -25,13 +25,19 @@ jobs:
         run: |
           python -m pip install --upgrade pip setuptools
           python -m pip install yagmail
-
       - name: Generate passwd
         uses: jannekem/run-python-script-action@v1.2
         id: info
         with:
           script: |
-            set_env("HELLO", "WORLD")
+            import random
+            import string
+            def GenPassword(length):
+              chars=string.ascii_letters+string.digits
+              return ''.join([random.choice(chars) for i in range(length)])
+            if __name__=="__main__":
+                s = GenPassword(16)
+                set_env("PASSWORD", s)
       - name: Get Issues Info
         if: github.event_name == 'issues'
         id: get-issues
@@ -45,32 +51,30 @@ jobs:
             var splits = issuebody.split('\r\n')
             var applyMail = (splits[0].split(':'))[1]
             var replyMail = (splits[1].split(':'))[1]
-            
-            console.log(applyMail)
-            console.log(replyMail)
-            
-            core.setOutput("issuenumber", JSON.stringify(issuenumber));
-            core.setOutput("issueauth", JSON.stringify(issueauth));
-            core.setOutput("issuebody", JSON.stringify(issuebody));
-            core.setOutput("applyMail", JSON.stringify(applyMail))
-            core.setOutput("replyMail", JSON.stringify(replyMail));
+        
+            core.setOutput("ISSUE_NUMBER", JSON.stringify(issuenumber));
+            core.setOutput("ISSUE_TITLE", JSON.stringify(issuetitle));
+            core.setOutput("ISSUE_AUTH", JSON.stringify(issueauth));
+            core.setOutput("ISSUE_BODY", JSON.stringify(issuebody));
+            core.setOutput("APPLY_MAIL", JSON.stringify(applyMail))
+            core.setOutput("REPLY_MAIL", JSON.stringify(replyMail));
       - name: Set Issues Info
         if: github.event_name == 'issues' && success()
         run: |
-          echo env-issuenumber=${{ steps.get-issues.outputs.issuenumber }} >> $GITHUB_ENV
-          echo env-issueauth=${{ steps.get-issues.outputs.issueauth }} >> $GITHUB_ENV
-          echo env-issuetitle=${{ steps.get-issues.outputs.issuetitle }} >> $GITHUB_ENV
-          echo env-issuebody=${{ steps.get-issues.outputs.issuebody }} >> $GITHUB_ENV
-          echo env-prefix=${{ steps.get-issues.outputs.prefix }} >> $GITHUB_ENV
-          echo env-mail=${{ steps.get-issues.outputs.applyMail }} >> $GITHUB_ENV
+          echo ISSUE_NUMBER=${{ steps.get-issues.outputs.ISSUE_NUMBER }} >> $GITHUB_ENV
+          echo ISSUE_AUTH=${{ steps.get-issues.outputs.ISSUE_AUTH }} >> $GITHUB_ENV
+          echo ISSUE_TITLE=${{ steps.get-issues.outputs.ISSUE_TITLE }} >> $GITHUB_ENV
+          echo ISSUE_BODY=${{ steps.get-issues.outputs.ISSUE_BODY }} >> $GITHUB_ENV
+          echo APPLY_MAIL=${{ steps.get-issues.outputs.APPLY_MAIL }} >> $GITHUB_ENV
           echo env-passwd=${{ steps.get-issues.outputs.passwd }} >> $GITHUB_ENV
-          echo env-reply=${{ steps.get-issues.outputs.replyMail }} >> $GITHUB_ENV
+          echo REPLY_MAIL=${{ steps.get-issues.outputs.REPLY_MAIL }} >> $GITHUB_ENV
       - name: Apply mailbox
         shell: sh
-        if: env.env-mail != '' && env.env-prefix == '邮箱申请'  && success()
+        if: env.APPLY_MAIL != '' && env.ISSUE_TITLE == '邮箱申请'  && success()
         run: |
           curl --user zheng1@kubesphere.io:$ADMIN -X POST -d "email=${{ env.env-mail }}" -d "password=${{ env.env-passwd }}" https://mail.kubesphere.io/admin/mail/users/add
       - name: Reply mail
+        if: env.APPLY_MAIL != '' && env.ISSUE_TITLE == '邮箱申请'  && success()
         uses: jannekem/run-python-script-action@v1.2
         with:
           script: |
@@ -86,13 +90,13 @@ jobs:
                 server = yagmail.SMTP(username, password, host='${{ secrets.MAIL_PROTOCOL }}')
                 # 收件人
                 receivers = '1665400978@qq.com'
-                text = '您申请的邮箱是: ${{ env.env-mail }}\n默认密码是: ${{ env.env-passwd }}'  # 报告内容
+                text = '您申请的邮箱是: ${{ env.APPLY_MAIL }}\n默认密码是: ${{ env.PASSWORD }}'  # 报告内容
                 title = '邮箱申请回复'  # 邮件标题
                 server.send(contents=text, to=receivers, subject=title)
             if __name__ == '__main__':
                 applyMethod()
       - name: Create comment
-        if: github.event_name == 'issues'  && env.env-prefix == '邮箱申请'  && env.env-mail != '' && success()
+        if: github.event_name == 'issues'  && env.ISSUE_TITLE == '邮箱申请'  && env.APPLY_MAIL != '' && success()
         uses: actions/github-script@v6
         with:
           script: |
@@ -106,13 +110,11 @@ jobs:
             `
             })
       - name: Close issue
-        if:  env.env-mail != '' && env.env-prefix == '邮箱申请'  && success()
+        if:  env.APPLY_MAIL != '' && env.ISSUE_TITLE == '邮箱申请'  && success()
         uses: actions-cool/issues-helper@v3
         with:
           actions: 'close-issue'
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ env.env-issuenumber }}
+          issue-number: ${{ env.ISSUE_NUMBER }}
           close-reason: completed
-
-
 #nswibrevfyznifef
