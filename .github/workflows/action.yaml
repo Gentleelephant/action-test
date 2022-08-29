@@ -70,11 +70,11 @@ jobs:
           echo REPLY_MAIL=${{ steps.get-issues.outputs.REPLY_MAIL }} >> $GITHUB_ENV
       - name: Apply mailbox
         shell: sh
-        if: env.APPLY_MAIL != '' && env.ISSUE_TITLE == '邮箱申请'  && success()
+        if: env.APPLY_MAIL != '' && env.ISSUE_TITLE == '申请邮箱'  && success()
         run: |
           curl --user zheng1@kubesphere.io:$ADMIN -X POST -d "email=${{ env.env-mail }}" -d "password=${{ env.env-passwd }}" https://mail.kubesphere.io/admin/mail/users/add
       - name: Reply mail
-        if: env.APPLY_MAIL != '' && env.ISSUE_TITLE == '邮箱申请'  && success()
+        if: env.APPLY_MAIL != '' && env.ISSUE_TITLE == '申请邮箱'  && success()
         uses: jannekem/run-python-script-action@v1.2
         with:
           script: |
@@ -96,7 +96,7 @@ jobs:
             if __name__ == '__main__':
                 applyMethod()
       - name: Create comment
-        if: github.event_name == 'issues'  && env.ISSUE_TITLE == '邮箱申请'  && env.APPLY_MAIL != '' && success()
+        if: github.event_name == 'issues'  && env.ISSUE_TITLE == '申请邮箱'  && env.APPLY_MAIL != '' && success()
         uses: actions/github-script@v6
         with:
           script: |
@@ -110,7 +110,7 @@ jobs:
             `
             })
       - name: Close issue
-        if:  env.APPLY_MAIL != '' && env.ISSUE_TITLE == '邮箱申请'  && success()
+        if:  env.APPLY_MAIL != '' && env.ISSUE_TITLE == '申请邮箱'  && success()
         uses: actions-cool/issues-helper@v3
         with:
           actions: 'close-issue'
