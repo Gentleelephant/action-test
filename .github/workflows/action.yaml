@@ -106,7 +106,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `
-                详细输出: ${{ env.MESSAGE }}
+                详细输出: ${{ env.CONTENT }}
                 状态码: ${{ env.STATUS_CODE }}
             `
             })
