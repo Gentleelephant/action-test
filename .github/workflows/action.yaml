@@ -25,35 +25,56 @@ jobs:
         run: |
           python -m pip install --upgrade pip setuptools
           python -m pip install yagmail
-      - name: Get Issues Info
+#      - name: Get Issues Info
+#        if: github.event_name == 'issues'
+#        id: get-issues
+#        uses: actions/github-script@v6
+#        with:
+#          script: |
+#            var issuenumber = ${{ toJSON(github.event.issue.number) }};
+#            var issueauth = ${{ toJSON(github.event.issue.user.login) }};
+#            var issuetitle = ${{ toJSON(github.event.issue.title) }};
+#            var issuebody = ${{ toJSON(github.event.issue.body) }};
+#            var splits = issuebody.split('\r\n')
+#            var applyMail = (splits[0].split(':'))[1]
+#            var replyMail = (splits[1].split(':'))[1]
+#
+#            core.setOutput("ISSUE_NUMBER", JSON.stringify(issuenumber));
+#            core.setOutput("ISSUE_TITLE", JSON.stringify(issuetitle));
+#            core.setOutput("ISSUE_AUTH", JSON.stringify(issueauth));
+#            core.setOutput("ISSUE_BODY", JSON.stringify(issuebody));
+#            core.setOutput("APPLY_MAIL", JSON.stringify(applyMail))
+#            core.setOutput("REPLY_MAIL", JSON.stringify(replyMail));
+      - name: Set env
         if: github.event_name == 'issues'
-        id: get-issues
-        uses: actions/github-script@v6
+        uses: jannekem/run-python-script-action@v1.2
         with:
-          script: |  
-            var issuenumber = ${{ toJSON(github.event.issue.number) }};
-            var issueauth = ${{ toJSON(github.event.issue.user.login) }};
-            var issuetitle = ${{ toJSON(github.event.issue.title) }};
-            var issuebody = ${{ toJSON(github.event.issue.body) }};
-            var splits = issuebody.split('\r\n')
-            var applyMail = (splits[0].split(':'))[1]
-            var replyMail = (splits[1].split(':'))[1]
-        
-            core.setOutput("ISSUE_NUMBER", JSON.stringify(issuenumber));
-            core.setOutput("ISSUE_TITLE", JSON.stringify(issuetitle));
-            core.setOutput("ISSUE_AUTH", JSON.stringify(issueauth));
-            core.setOutput("ISSUE_BODY", JSON.stringify(issuebody));
-            core.setOutput("APPLY_MAIL", JSON.stringify(applyMail))
-            core.setOutput("REPLY_MAIL", JSON.stringify(replyMail));
-      - name: Set Issues Info
-        if: github.event_name == 'issues' && success()
-        run: |
-          echo ISSUE_NUMBER=${{ steps.get-issues.outputs.ISSUE_NUMBER }} >> $GITHUB_ENV
-          echo ISSUE_AUTH=${{ steps.get-issues.outputs.ISSUE_AUTH }} >> $GITHUB_ENV
-          echo ISSUE_TITLE=${{ steps.get-issues.outputs.ISSUE_TITLE }} >> $GITHUB_ENV
-          echo ISSUE_BODY=${{ steps.get-issues.outputs.ISSUE_BODY }} >> $GITHUB_ENV
-          echo APPLY_MAIL=${{ steps.get-issues.outputs.APPLY_MAIL }} >> $GITHUB_ENV
-          echo REPLY_MAIL=${{ steps.get-issues.outputs.REPLY_MAIL }} >> $GITHUB_ENV
+          script: |
+            def parseString(strs):
+                splits = strs.split("\r\n")
+                return splits[0].split(":")[1], splits[1].split(":")[1]
+            if __name__ == '__main__':
+              issuenumber = ${{ toJSON(github.event.issue.number) }}
+              issueauth = ${{ toJSON(github.event.issue.user.login) }}
+              issuetitle = ${{ toJSON(github.event.issue.title) }}
+              issuebody = ${{ toJSON(github.event.issue.body) }}
+              results = parseString(issuebody)
+              applyMail = results[0]
+              replyMail = results[1]
+              set_env('ISSUE_NUMBER',issuenumber)
+              set_env('ISSUE_AUTH',issueauth)
+              set_env('ISSUE_TITLE',issuetitle)
+              set_env('APPLY_MAIL',applyMail)
+              set_env('REPLY_MAIL',replyMail)
+#      - name: Set Issues Info
+#        if: github.event_name == 'issues' && success()
+#        run: |
+#          echo ISSUE_NUMBER=${{ steps.get-issues.outputs.ISSUE_NUMBER }} >> $GITHUB_ENV
+#          echo ISSUE_AUTH=${{ steps.get-issues.outputs.ISSUE_AUTH }} >> $GITHUB_ENV
+#          echo ISSUE_TITLE=${{ steps.get-issues.outputs.ISSUE_TITLE }} >> $GITHUB_ENV
+#          echo ISSUE_BODY=${{ steps.get-issues.outputs.ISSUE_BODY }} >> $GITHUB_ENV
+#          echo APPLY_MAIL=${{ steps.get-issues.outputs.APPLY_MAIL }} >> $GITHUB_ENV
+#          echo REPLY_MAIL=${{ steps.get-issues.outputs.REPLY_MAIL }} >> $GITHUB_ENV
 #      - name: Apply mailbox
 #        shell: sh
 #        if: env.APPLY_MAIL != '' && env.ISSUE_TITLE == '申请邮箱'  && success()
@@ -83,16 +104,12 @@ jobs:
                 print(resp.text)
                 set_env('CONTENT',resp.text)
                 set_env('STATUS_CODE',str(resp.status_code))
-                # 发件人
                 username = '${{ secrets.MAIL_SENDER }}'
-                # 授权码密码
                 password = '${{ secrets.MAIL_PASSWORD }}'
-                # 创建yagmail服务,需要加上服务器地址
                 server = yagmail.SMTP(username, password, host='${{ secrets.MAIL_PROTOCOL }}')
-                # 收件人
                 receivers = '${{ env.REPLY_MAIL }}'
                 text = '您申请的邮箱是:${{ env.APPLY_MAIL }}\n' + '默认密码是:'+mailPassword + '\n请尽快访问 www.baidu.com 修改密码'
-                title = '邮箱申请回复'  # 邮件标题
+                title = '邮箱申请回复'
                 server.send(contents=text, to=receivers, subject=title)
             if __name__ == '__main__':
                 applyMethod()
