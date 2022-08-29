@@ -82,7 +82,7 @@ jobs:
                 })
                 print(resp.text)
                 set_env('CONTENT',resp.text)
-                set_env('STATUS_CODE',resp.status_code)
+                set_env('STATUS_CODE',str(resp.status_code))
                 # 发件人
                 username = '${{ secrets.MAIL_SENDER }}'
                 # 授权码密码
