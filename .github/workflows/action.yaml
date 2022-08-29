@@ -42,8 +42,8 @@ jobs:
             core.setOutput("issuebody", JSON.stringify(issuebody));
             core.setOutput("prefix", JSON.stringify(splits[0]))
             core.setOutput("mail", JSON.stringify(splits[1]));
-            core.setOutput("reply", JSON.stringify(issuebody));
-            core.setOutput("passwd", JSON.stringify(passwd));
+#            core.setOutput("reply", JSON.stringify(issuebody));
+#            core.setOutput("passwd", JSON.stringify(passwd));
 #      - name: Set Issues Info
 #        if: github.event_name == 'issues' && success()
 #        run: |
