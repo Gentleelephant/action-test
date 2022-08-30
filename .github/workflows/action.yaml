@@ -13,6 +13,7 @@ jobs:
       MAIL_SENDER: ${{ secrets.MAIL_SENDER }} #发送方邮件地址
       MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }} #发送方邮件密码
       MAIL_PROTOCOL: ${{ secrets.MAIL_PROTOCOL }} #协议，例如smtp.qq.com
+      MAIL_PROTOCOL_PORT: ${{ secrets.MAIL_PROTOCOL_PORT }} #协议端口
     steps:
       - name: Set up Python 3
         uses: actions/setup-python@v2
@@ -76,9 +77,9 @@ jobs:
                 set_env('STATUS_CODE',str(resp.status_code))
                 username = '${{ secrets.MAIL_SENDER }}'
                 password = '${{ secrets.MAIL_PASSWORD }}'
-                server = yagmail.SMTP(username, password, host='${{ secrets.MAIL_PROTOCOL }}')
+                server = yagmail.SMTP(username, password, host='${{ env.MAIL_PROTOCOL }}', port=${{env.MAIL_PROTOCOL_PORT}})
                 receivers = '${{ env.REPLY_MAIL }}'
-                text = '您申请的邮箱是:${{ env.APPLY_MAIL }}\n' + '默认密码是:%s' % (mailPassword) + '\n请尽快访问 www.baidu.com 修改密码'
+                text = '您申请的邮箱是:${{ env.APPLY_MAIL }}\n' + '默认密码是:%s' % (mailPassword) + '\n请尽快访问 https://mail.kubesphere.io/mail/ 修改密码'
                 title = '邮箱申请回复'
                 server.send(contents=text, to=receivers, subject=title)
             if __name__ == '__main__':
