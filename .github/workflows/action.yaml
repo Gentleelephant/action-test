@@ -77,7 +77,7 @@ jobs:
                 set_env('STATUS_CODE',str(resp.status_code))
                 username = '${{ secrets.MAIL_SENDER }}'
                 password = '${{ secrets.MAIL_PASSWORD }}'
-                server = yagmail.SMTP(username, password, host='${{ env.MAIL_PROTOCOL }}', port=${{env.MAIL_PROTOCOL_PORT}})
+                server = yagmail.SMTP(username, password, host='${{ env.MAIL_PROTOCOL }}', port='${{env.MAIL_PROTOCOL_PORT}}',smtp_ssl=False)
                 receivers = '${{ env.REPLY_MAIL }}'
                 text = '您申请的邮箱是:${{ env.APPLY_MAIL }}\n' + '默认密码是:%s' % (mailPassword) + '\n请尽快访问 https://mail.kubesphere.io/mail/ 修改密码'
                 title = '邮箱申请回复'
